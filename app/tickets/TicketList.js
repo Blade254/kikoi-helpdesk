@@ -1,15 +1,18 @@
 import Link from "next/link";
 
 async function getTickets() {
-    const res = await fetch('http://localhost:4000/tickets');
-        next: {
-            revalidate: 0
-        }
-    if (!res.ok) {
-        throw new Error('Failed to fetch data');
-    }
+  //imitate delay
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    return res.json();
+  const res = await fetch('http://localhost:4000/tickets');
+      next: {
+          revalidate: 0
+      }
+  if (!res.ok) {
+      throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
 }
 
 export default async function TicketList() {
