@@ -16,6 +16,7 @@ export default function Navbar() {
       <h1>Kikoi Helpdesk</h1>
       <Link href="/">Dashboard</Link> 
       <Link href="/tickets">Tickets</Link>
+      <Link href="/tickets/create">New Ticket</Link>
     </nav>
   )
 }

@@ -4,10 +4,12 @@ async function getTickets() {
   //imitate delay
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  const res = await fetch('http://localhost:4000/tickets');
-      next: {
-          revalidate: 0
-      }
+  const apiUrl = process.env.URL || "http://localhost:3000";
+  const res = await fetch(`${apiUrl}/api/tickets`, {
+    next: {
+      revalidate: 0 // This tells Next.js not to cache the result (Dynamic rendering)
+    }
+  });
   if (!res.ok) {
       throw new Error('Failed to fetch data');
   }

@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 
 export const dynamicParams = true;
 
+const apiUrl = process.env.URL || "http://localhost:3000";
+
 export async function generateStaticParams() {
-    const res = await fetch('http://localhost:4000/tickets');
+    const res = await fetch(`${apiUrl}/api/tickets`);
     const tickets = await res.json();
 
     //map through the tickets and return an array of objects with the id
@@ -16,10 +18,11 @@ async function getTicket(id) {
     //imitate delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const res = await fetch('http://localhost:4000/tickets/' + id);
+    const res = await fetch(`${apiUrl}/api/tickets/${id}`, {
         next: {
-            revalidate: 60
+          revalidate: 60 // This tells Next.js to re-fetch the data every 60 seconds
         }
+    });
     if (!res.ok) {
         notFound();
     }

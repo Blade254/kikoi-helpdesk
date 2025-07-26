@@ -10,7 +10,7 @@ export default function Tickets() {
           <h2>Tickets</h2>
           <p>Currently open tickets.</p>
         </div>
-    </nav>
+      </nav>
 
     <Suspense fallback={<Loading />}> 
       <TicketList />

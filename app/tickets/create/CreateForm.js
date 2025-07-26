@@ -15,21 +15,24 @@ export default function CreateForm() {
         e.preventDefault()
         setIsLoading(true)
 
-        const ticket = { title, body, priority, user_email: "barake@koi.dev"}
+        const newTicket = {
+        id: Math.floor(Math.random() * 10000).toString(),
+        title,
+        body,
+        priority,
+        user_email: 'barake@koi.dev',
+        };
 
-        const res = await fetch("http://localhost:4000/tickets", {
+        // Send the data to your internal API route
+        const res = await fetch('/api/tickets', {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(ticket)
-        })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newTicket),
+        });
 
-        if (res.ok) {
-            router.refresh()
-            router.push("/tickets")
-        } else {
-            console.log("Error creating ticket")
+        if (res.status === 201) {
+            router.refresh(); 
+            router.push('/tickets'); 
         }
         setIsLoading(false)
     }
