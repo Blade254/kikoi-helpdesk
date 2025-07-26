@@ -1,33 +1,28 @@
 import { notFound } from "next/navigation";
+import { getAllTickets, getTicketById } from "../../../lib/data";
 
 export const dynamicParams = true;
 
 const apiUrl = process.env.URL || "http://localhost:3000";
 
 export async function generateStaticParams() {
-    const res = await fetch(`${apiUrl}/api/tickets`);
-    const tickets = await res.json();
+    const tickets = getAllTickets(); // Direct function call
 
-    //map through the tickets and return an array of objects with the id
     return tickets.map((ticket) => ({
         id: ticket.id.toString(),
     }));
 }
 
 async function getTicket(id) {
-    //imitate delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const res = await fetch(`${apiUrl}/api/tickets/${id}`, {
-        next: {
-          revalidate: 60 // This tells Next.js to re-fetch the data every 60 seconds
-        }
-    });
-    if (!res.ok) {
+    const ticket = getTicketById(id); // Direct function call
+
+    if (!ticket) {
         notFound();
     }
 
-    return res.json();
+    return ticket;
 }
 
 export default async function TicketDetails({ params }) {

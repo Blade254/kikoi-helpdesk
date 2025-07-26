@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import tickets from '../../../_data/db.json';
+import data from '../../../_data/db.json';
 
 export async function GET() {
-  return NextResponse.json(tickets.tickets, {
+  return NextResponse.json(data.tickets, {
     status: 200,
   });
 }

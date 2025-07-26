@@ -3,23 +3,22 @@ import data from '../../../../_data/db.json';
 
 // The second argument to GET, { params }, contains the dynamic route parameters
 export async function GET(request, { params }) {
-  const ticketId = await params.id; // This will be '2' from the URL '/api/tickets/2'
+    const resolvedParams = await params; // Await the params to ensure they are resolved
 
-  // Find the ticket in our data that matches the ID from the URL
-  const ticket = data.tickets.find(t => t.id == ticketId);
+    const ticketId = resolvedParams.id; 
 
-  // If a ticket is found, return it
-  if (ticket) {
-    return NextResponse.json(ticket, {
-      status: 200,
-    });
-  }
+    const ticket = data.tickets.find(t => t.id == ticketId);
 
-  // If no ticket is found, return a 404 error
-  return NextResponse.json(
-    { message: `Ticket with ID ${ticketId} not found.` },
-    {
-      status: 404,
+    if (ticket) {
+        return NextResponse.json(ticket, {
+        status: 200,
+        });
     }
-  );
+
+    return NextResponse.json(
+        { message: `Ticket with ID ${ticketId} not found.` },
+        {
+        status: 404,
+        }
+    );
 }
